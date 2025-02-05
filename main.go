@@ -28,7 +28,7 @@ func main() {
 
 	if version {
 		fmt.Print("MultiUnzipper version 1.0\n")
-		fmt.Print("Go versioh 1.2.")
+		fmt.Print("Go version 1.23\n")
 		os.Exit(0)
 	}
 
@@ -90,7 +90,12 @@ func expandCompressedArchive(filePath string) {
 	if err != nil {
 		log.Fatalf("Error reading archive: %v", err)
 	}
-	defer archive.Close()
+	defer func(archive *sevenzip.ReadCloser) {
+		err := archive.Close()
+		if err != nil {
+			log.Printf("Error closing archive: %v", err)
+		}
+	}(archive)
 
 	for _, file := range archive.File {
 		destFilePath := filepath.Join(destinationPath, file.Name)
@@ -104,13 +109,23 @@ func expandCompressedArchive(filePath string) {
 		if err != nil {
 			log.Printf("Error opening file %v: %v", file.Name, err)
 		}
-		defer rc.Close()
+		defer func(rc io.ReadCloser) {
+			err := rc.Close()
+			if err != nil {
+				log.Printf("Error closing file %v: %v", file.Name, err)
+			}
+		}(rc)
 
 		destFile, err := os.Create(destFilePath)
 		if err != nil {
 			log.Printf("Error creating file %v: %v", file.Name, err)
 		}
-		defer destFile.Close()
+		defer func(destFile *os.File) {
+			err := destFile.Close()
+			if err != nil {
+				log.Printf("Error closing file %v: %v", file.Name, err)
+			}
+		}(destFile)
 
 		_, err = io.Copy(destFile, rc)
 		if err != nil {
@@ -127,7 +142,12 @@ func getUncompressedZipSize(filePath string) [2]int64 {
 	if err != nil {
 		log.Fatalf("Failed to open archive: %v", err)
 	}
-	defer file.Close()
+	defer func(file *os.File) {
+		err := file.Close()
+		if err != nil {
+			log.Printf("Error closing file %v: %v", file.Name, err)
+		}
+	}(file)
 
 	reader, err := sevenzip.NewReader(file, fileInfoSize(file))
 	if err != nil {
