@@ -35,6 +35,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            multiunzipper-${{ matrix.os }}-${{ matrix.arch }}
+            multiunzipper-${{ matrix.os }}-${{ matrix.arch }}${{ matrix.os == 'windows' && '.exe' || '' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
