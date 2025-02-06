@@ -27,9 +27,11 @@ jobs:
         run: |
           mkdir -p releases/${{ matrix.os }}-${{ matrix.arch }}
           GOOS=${{ matrix.os }} GOARCH=${{ matrix.arch }} go build -o releases/${{ matrix.os }}-${{ matrix.arch }}/multiunzipper ./main.go
-
-      - name: Upload release artifacts
-        uses: actions/upload-artifact@v4
+          
+      - name: Release with Notes
+        uses: softprops/action-gh-release@v1
         with:
-          name: multiunzipper-${{ matrix.os }}-${{ matrix.arch }}
-          path: releases/${{ matrix.os }}-${{ matrix.arch }}/multiunzipper
+          files: |
+            multiunzipper-${{ matrix.os }}-${{ matrix.arch }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
