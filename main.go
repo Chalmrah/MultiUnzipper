@@ -46,7 +46,7 @@ func main() {
 		extractAllFiles(dir, destinationPath)
 	}
 
-	if extract {
+	if extract && destinationPath == "" {
 		fmt.Printf("Destination not set!")
 	}
 
