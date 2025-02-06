@@ -29,7 +29,7 @@ jobs:
           GOOS=${{ matrix.os }} GOARCH=${{ matrix.arch }} go build -o releases/${{ matrix.os }}-${{ matrix.arch }}/multiunzipper ./main.go
 
       - name: Upload release artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: multiunzipper-${{ matrix.os }}-${{ matrix.arch }}
           path: releases/${{ matrix.os }}-${{ matrix.arch }}/multiunzipper
