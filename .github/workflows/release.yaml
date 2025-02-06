@@ -26,7 +26,7 @@ jobs:
       - name: Build MultiUnzipper for ${{ matrix.os }} ${{ matrix.arch }}
         run: |
           mkdir -p releases/${{ matrix.os }}-${{ matrix.arch }}
-          GOOS=${{ matrix.os }} GOARCH=${{ matrix.arch }} go build -o releases/${{ matrix.os }}-${{ matrix.arch }}/multiunzipper ./main.go
+          GOOS=${{ matrix.os }} GOARCH=${{ matrix.arch }} go build -o multiunzipper-${{ matrix.os }}-${{ matrix.arch }} ./main.go
           
       - name: Release with Notes
         uses: softprops/action-gh-release@v1
