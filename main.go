@@ -27,8 +27,7 @@ func main() {
 	flag.Parse()
 
 	if version {
-		fmt.Print("MultiUnzipper version 1.0\n")
-		fmt.Print("Go version 1.23\n")
+		fmt.Print("MultiUnzipper version 1.0\nGo version 1.23")
 		os.Exit(0)
 	}
 
