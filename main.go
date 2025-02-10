@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 )
 
@@ -16,6 +17,10 @@ var (
 	extract         bool
 	destinationPath string
 	version         bool
+	goVersion       = runtime.Version()
+	buildDate       = "unknown"
+	buildCommit     = "dev"
+	buildVersion    = "unknown"
 )
 
 func main() {
@@ -27,7 +32,7 @@ func main() {
 	flag.Parse()
 
 	if version {
-		fmt.Print("MultiUnzipper version 1.0\nGo version 1.23")
+		fmt.Printf("MultiUnzipper %s\nCommit Hash: %s\nBuild Date:  %s\nGo Version:  %s\n", buildVersion, buildCommit, buildDate, goVersion)
 		os.Exit(0)
 	}
 
